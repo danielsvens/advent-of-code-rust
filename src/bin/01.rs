@@ -12,22 +12,21 @@ fn parse(num: &str) -> u32 {
 fn calc(input: &str) -> Vec<u32> {
     let strings = vec_of_strings(input);
     let mut nums: Vec<u32> = Vec::new();
-    let mut holder: u32 = 0;
+    let mut current_num: u32 = 0;
     let mut temp;
 
     for n in strings {
         temp = parse(&n);
 
         if temp == 0 {
-            nums.push(holder);
-            holder = 0;
+            nums.push(current_num);
+            current_num = 0;
         }
 
-        holder += temp
+        current_num += temp
     }
 
-    nums.push(holder);
-
+    nums.push(current_num);
     nums
 }
 
