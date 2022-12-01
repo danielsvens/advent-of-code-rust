@@ -10,7 +10,7 @@ fn parse(num: &str) -> u32 {
 }
 
 fn calc(input: &str) -> Vec<u32> {
-    let strings = vec_of_strings(&input);
+    let strings = vec_of_strings(input);
     let mut nums: Vec<u32> = Vec::new();
     let mut holder: u32 = 0;
     let mut temp;
@@ -38,10 +38,13 @@ pub fn part_one(input: &str) -> Option<u32> {
 pub fn part_two(input: &str) -> Option<u32> {
     let mut nums = calc(input);
     nums.sort_by(|a, b| b.cmp(a));
+
     let result = &nums[0..3];
-    let sliced = result.to_vec();
-    let summa = sliced.iter().sum();
-    Some(summa)
+    let total = result.to_vec()
+        .iter()
+        .sum();
+    
+    Some(total)
 }
 
  fn main() {
