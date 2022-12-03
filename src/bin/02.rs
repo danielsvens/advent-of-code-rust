@@ -1,5 +1,13 @@
 use advent_of_code::helpers::vec_of_strings;
 
+/*
+ * 0 = draw,
+ * 1 = win
+ * 2 = loss
+ * 
+ * table structure: [[rock], [paper], [scissor]]
+ * 
+*/
 static WIN_TABLE: [[u32; 3]; 3] = [[0, 2, 1], [1, 0, 2], [2, 1, 0]];
 
 fn map_move(a_move: &str) -> usize {
@@ -14,10 +22,10 @@ fn map_move(a_move: &str) -> usize {
 fn check_win(opponent: &str, you: &str) -> u32 {
     let o = map_move(opponent);
     let y = map_move(you);
-    let win = WIN_TABLE[y][o];
+    let game_result = WIN_TABLE[y][o];
     let extra_score = 1 + u32::try_from(y).unwrap();
 
-    match win {
+    match game_result {
         0 => 3 + extra_score,
         1 => 6 + extra_score,
         2 => 0 + extra_score,
@@ -30,7 +38,7 @@ fn select_move(opponent: &str, outcome: &str) -> String {
         "A" => "Z",
         "B" => "X",
         "C" => "Y",
-        _ => "L"
+        _ => ""
     };
 
     let win_choice = match opponent {
@@ -48,14 +56,6 @@ fn select_move(opponent: &str, outcome: &str) -> String {
     }
 }
 
-/*
- * 0 = draw,
- * 1 = win
- * 2 = loss
- * 
- * table structure: [[rock], [paper], [scissor]]
- * 
-*/
 pub fn part_one(input: &str) -> Option<u32> {
     let strings = vec_of_strings(input);
     let mut result = 0;
