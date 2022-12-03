@@ -1,12 +1,11 @@
 use advent_of_code::helpers::vec_of_strings;
 use itertools::max;
 
-
 fn parse(num: &str) -> u32 {
     match num.parse::<u32>() {
         Ok(n) => n,
         Err(_) => 0,
-      }
+    }
 }
 
 fn calc(input: &str) -> Vec<u32> {
@@ -39,14 +38,12 @@ pub fn part_two(input: &str) -> Option<u32> {
     nums.sort_by(|a, b| b.cmp(a));
 
     let result = &nums[0..3];
-    let total = result.to_vec()
-        .iter()
-        .sum();
-    
+    let total = result.to_vec().iter().sum();
+
     Some(total)
 }
 
- fn main() {
+fn main() {
     let input = &advent_of_code::read_file("inputs", 1);
     advent_of_code::solve!(1, part_one, input);
     advent_of_code::solve!(2, part_two, input);

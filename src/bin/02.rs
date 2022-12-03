@@ -4,9 +4,9 @@ use advent_of_code::helpers::vec_of_strings;
  * 0 = draw,
  * 1 = win
  * 2 = loss
- * 
+ *
  * table structure: [[rock], [paper], [scissor]]
- * 
+ *
 */
 static WIN_TABLE: [[u32; 3]; 3] = [[0, 2, 1], [1, 0, 2], [2, 1, 0]];
 
@@ -15,7 +15,7 @@ fn map_move(a_move: &str) -> usize {
         "A" | "X" => 0,
         "B" | "Y" => 1,
         "C" | "Z" => 2,
-        _ => 0
+        _ => 0,
     }
 }
 
@@ -29,7 +29,7 @@ fn check_win(opponent: &str, you: &str) -> u32 {
         0 => 3 + extra_score,
         1 => 6 + extra_score,
         2 => 0 + extra_score,
-        _ => 0
+        _ => 0,
     }
 }
 
@@ -38,21 +38,21 @@ fn select_move(opponent: &str, outcome: &str) -> String {
         "A" => "Z",
         "B" => "X",
         "C" => "Y",
-        _ => ""
+        _ => "",
     };
 
     let win_choice = match opponent {
         "A" => "Y",
         "B" => "Z",
         "C" => "X",
-        _ => ""
+        _ => "",
     };
 
     match outcome {
         "Y" => String::from(opponent),
         "X" => String::from(loss_choice),
         "Z" => String::from(win_choice),
-        _ => String::from("")
+        _ => String::from(""),
     }
 }
 
@@ -65,7 +65,7 @@ pub fn part_one(input: &str) -> Option<u32> {
         let score = check_win(left, right);
         result += score
     }
-    
+
     Some(result)
 }
 
@@ -80,7 +80,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         let score = check_win(left, &decided_move);
         result += score
     }
-    
+
     Some(result)
 }
 
