@@ -46,3 +46,10 @@ where
 
     heap.into_sorted_vec().into_iter().map(|r| r.0).collect()
 }
+
+pub fn parse_str_to_num(num: &str) -> u32 {
+    match num.parse::<u32>() {
+        Ok(n) => n,
+        Err(_) => 0,
+    }
+}
