@@ -1,7 +1,6 @@
 use advent_of_code::helpers::{parse_str_to_num, vec_of_strings};
-use std::ops::RangeInclusive;
 
-fn get_range(str_to_split: &str) -> (RangeInclusive<u32>, RangeInclusive<u32>) {
+fn parse(str_to_split: &str) -> ((u32, u32), (u32, u32)) {
     let (left, right) = str_to_split.split_once(",").unwrap();
 
     let (lower_left, higher_left) = left.split_once("-").unwrap();
@@ -13,17 +12,7 @@ fn get_range(str_to_split: &str) -> (RangeInclusive<u32>, RangeInclusive<u32>) {
     let lower_right_num = parse_str_to_num(lower_right);
     let higher_right_num = parse_str_to_num(higher_right);
 
-    if lower_left_num < lower_right_num {
-        return (
-            lower_left_num..=higher_left_num,
-            lower_right_num..=higher_right_num,
-        );
-    }
-
-    (
-        lower_right_num..=higher_right_num,
-        lower_left_num..=higher_left_num,
-    )
+    ((lower_left_num, higher_left_num), (lower_right_num, higher_right_num))
 }
 
 pub fn part_one(input: &str) -> Option<u32> {
@@ -31,16 +20,7 @@ pub fn part_one(input: &str) -> Option<u32> {
     let mut result = 0;
 
     for s in strings {
-        let (left, right) = s.split_once(",").unwrap();
-
-        let (lower_left, higher_left) = left.split_once("-").unwrap();
-        let (lower_right, higher_right) = right.split_once("-").unwrap();
-
-        let left_start = parse_str_to_num(lower_left);
-        let left_end = parse_str_to_num(higher_left);
-
-        let right_start = parse_str_to_num(lower_right);
-        let right_end = parse_str_to_num(higher_right);
+        let ((left_start, left_end), (right_start, right_end)) = parse(s);
 
         if (left_start <= right_start && left_end >= right_end) || (right_start <= left_start && right_end >= left_end) {
             result += 1
@@ -55,12 +35,12 @@ pub fn part_two(input: &str) -> Option<u32> {
     let mut result = 0;
 
     for s in strings {
-        let range = get_range(s);
+        let ((left_start, left_end), (right_start, right_end)) = parse(s);
+        let range = (left_start..=left_end, right_start..=right_end);
 
         if range.1.into_iter().any(|e| range.0.contains(&e)) {
             result += 1
         }
-        
     }
 
     Some(result)
