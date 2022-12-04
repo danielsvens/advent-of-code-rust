@@ -1,3 +1,7 @@
+use std::cmp::{Eq, Ord, Reverse};
+use std::collections::{BinaryHeap, HashMap};
+use std::hash::Hash;
+
 pub fn vec_of_strings(input: &str) -> Vec<&str> {
     input.split('\n').map(|str| str.trim()).collect()
 }
@@ -14,4 +18,31 @@ pub fn get_alphabet() -> Vec<String> {
         .filter(|c| c.is_alphabetic())
         .map(|c| c.to_string())
         .collect::<Vec<String>>()
+}
+
+pub fn count<T>(array: &Vec<T>, k: usize) -> Vec<(usize, &T)>
+where
+    T: Hash + Eq + Ord,
+{
+    let mut map = HashMap::with_capacity(array.len());
+
+    for x in array {
+        *map.entry(x).or_default() += 1;
+    }
+
+    let mut heap = BinaryHeap::with_capacity(k + 1);
+
+    for (x, count) in map.into_iter() {
+        if heap.len() < k {
+            heap.push(Reverse((count, x)));
+        } else {
+            let &Reverse((min, _)) = heap.peek().unwrap();
+            if min < count {
+                heap.pop();
+                heap.push(Reverse((count, x)));
+            }
+        }
+    }
+
+    heap.into_sorted_vec().into_iter().map(|r| r.0).collect()
 }

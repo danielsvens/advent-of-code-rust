@@ -1,8 +1,7 @@
-use advent_of_code::helpers::vec_of_strings;
 use advent_of_code::helpers::get_alphabet;
+use advent_of_code::helpers::vec_of_strings;
 
 use std::slice::Chunks;
-use std::collections::HashSet;
 
 fn find_common_characters(left: &str, right: &str) -> Vec<String> {
     left.chars()
@@ -12,7 +11,10 @@ fn find_common_characters(left: &str, right: &str) -> Vec<String> {
 }
 
 fn find_position(alphabet: &Vec<String>, character: &String) -> u32 {
-    let index = alphabet.iter().position(|r| r == character).map(|e| u32::try_from(e).unwrap());
+    let index = alphabet
+        .iter()
+        .position(|r| r == character)
+        .map(|e| u32::try_from(e).unwrap());
     index.unwrap() + 1
 }
 
@@ -38,14 +40,38 @@ pub fn part_one(input: &str) -> Option<u32> {
 pub fn part_two(input: &str) -> Option<u32> {
     let strings = vec_of_strings(input);
     let chunks: Chunks<&str> = strings.chunks(3);
+    let alphabet = get_alphabet();
+    let mut result: u32 = 0;
 
     for group in chunks.into_iter() {
-        
-        // do stuff
+        let (first, others) = group.split_at(1);
 
+        let mut found_one: bool = false;
+        let mut found_two: bool = false;
+        let mut found_item: String = String::from("");
+
+        for c in first[0].chars() {
+            if others[0].contains(c) {
+                found_one = true;
+            }
+
+            if others[1].contains(c) {
+                found_two = true;
+            }
+
+            if found_one && found_two {
+                found_item = c.to_string();
+                break;
+            }
+
+            found_one = false;
+            found_two = false;
+        }
+
+        result += find_position(&alphabet, &found_item);
     }
 
-    None
+    Some(result)
 }
 
 fn main() {
@@ -67,6 +93,6 @@ mod tests {
     #[test]
     fn test_part_two() {
         let input = advent_of_code::read_file("examples", 3);
-        assert_eq!(part_two(&input), None);
+        assert_eq!(part_two(&input), Some(70));
     }
 }
