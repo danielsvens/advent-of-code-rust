@@ -53,3 +53,17 @@ pub fn parse_str_to_num(num: &str) -> u32 {
         Err(_) => 0,
     }
 }
+
+pub fn parse_char_to_num(num: &char) -> u32 {
+    match num.to_string().parse::<u32>() {
+        Ok(n) => n,
+        Err(_) => 0,
+    }
+}
+
+pub fn parse_str_to_usize(num: &str) -> usize {
+    match num.parse::<usize>() {
+        Ok(n) => n,
+        Err(_) => 0,
+    }
+}
