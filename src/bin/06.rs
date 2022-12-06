@@ -3,13 +3,11 @@ use std::collections::HashSet;
 use advent_of_code::helpers::vec_of_strings;
 
 fn find_marker(signal: String, seq_num: usize) -> usize {
-    let mut start: usize = 0;
-    let mut end: usize = seq_num;
     let mut chars: HashSet<String> = HashSet::new();
     let mut result = 0;
 
     for i in 0..signal.len() {
-        for c in signal[start..end].chars() {
+        for c in signal[i..i + seq_num].chars() {
             chars.insert(c.to_string());
         }
 
@@ -19,9 +17,6 @@ fn find_marker(signal: String, seq_num: usize) -> usize {
         }
         
         chars.clear();
-        
-        start += 1;
-        end += 1;
     }
 
     result
