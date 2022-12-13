@@ -67,3 +67,10 @@ pub fn parse_str_to_usize(num: &str) -> usize {
         Err(_) => 0,
     }
 }
+
+pub fn parse_string_to_usize(num: &String) -> usize {
+    match num.parse::<usize>() {
+        Ok(n) => n,
+        Err(_) => 0,
+    }
+}
